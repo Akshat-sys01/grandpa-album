@@ -9,7 +9,6 @@
         /* Custom fonts for a warmer feel */
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;700&display=swap');
         
-        /* Smooth scrolling and better box-sizing */
         html {
             scroll-behavior: smooth;
         }
@@ -30,21 +29,66 @@
             overflow-x: hidden;
         }
         
-            h1 {
+        /* Tap to Start Overlay */
+        #tap-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fff0f5, #ffe4e6);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 1s ease-out;
+        }
+
+        #tap-overlay h1 {
             font-family: 'Dancing Script', cursive;
             color: #d6497f;
-            text-shadow: 3px 3px 12px rgba(0,0,0,0.25); /* stronger shadow for visibility */
-            font-size: clamp(3.5rem, 12vw, 6rem); /* bigger */
+            font-size: clamp(3rem, 12vw, 5rem);
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            animation: pulse 2.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Main content that is initially hidden */
+        #main-content {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 1.5s 0.5s ease-in; /* Fade in after a slight delay */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #main-content.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #d6497f;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+            font-size: clamp(2.8rem, 10vw, 5rem);
             text-align: center;
         }
 
         h2 {
             font-family: 'Quicksand', sans-serif;
-            color: #4a4a4a; /* darker for better contrast */
-            font-size: clamp(1.5rem, 5vw, 2rem); /* bigger */
+            color: #718096;
+            font-size: clamp(1.1rem, 4vw, 1.4rem);
             text-align: center;
-            margin-bottom: 2rem;
-            font-weight: 700; /* bolder */
+            margin-bottom: 1.5rem;
         }
 
         .slideshow-container {
@@ -98,7 +142,6 @@
             border-radius: 1.25rem;
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            /* These two lines ensure perfect horizontal centering */
             margin-left: auto;
             margin-right: auto;
         }
@@ -111,7 +154,7 @@
 
         .ending-message-slide h3 {
             font-family: 'Dancing Script', cursive;
-            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-size: clamp(2.2rem, 8vw, 4rem);
             color: #b30059;
             line-height: 1.2;
             text-shadow: 2px 2px 10px rgba(0,0,0,0.15);
@@ -119,74 +162,81 @@
 
         .ending-message-slide p {
             font-family: 'Quicksand', sans-serif;
-            font-size: clamp(1.1rem, 4vw, 1.6rem);
+            font-size: clamp(1.2rem, 4vw, 1.75rem);
             color: #6a003a;
             font-weight: 500;
         }
 
         @media (max-width: 360px) {
-            h1 { font-size: clamp(2.2rem, 10vw, 4.5rem); }
+            h1 { font-size: clamp(2.5rem, 10vw, 5rem); }
             .ending-message-slide { padding: 1rem; gap: 1rem; }
         }
 
     </style>
 </head>
-<body class="flex flex-col items-center">
+<body>
 
-    <audio id="bg-music" loop autoplay muted>
+    <audio id="bg-music" loop muted playsinline>
         <source src="song.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
-    <h1>❤️ Our Precious Memories ❤️</h1>
-    <h2>A special day for our special person</h2>
-
-    <div class="slideshow-container">
-        <div class="slides">
-            <img src="01.jpg" alt="Family Photo 1">
-        </div>
-        <div class="slides">
-            <img src="02.jpg" alt="Family Photo 2">
-        </div>
-        <div class="slides">
-            <img src="03.jpg" alt="Family Photo 3">
-        </div>
-        <div class="slides">
-            <img src="04.jpg" alt="Family Photo 4">
-        </div>
-        <div class="slides">
-            <img src="05.jpg" alt="Family Photo 5">
-        </div>
-        <div class="slides">
-            <img src="06.jpg" alt="Family Photo 6">
-        </div>
-        <div class="slides">
-            <img src="07.jpg" alt="Family Photo 7">
-        </div>
-        <div class="slides">
-            <img src="08.jpg" alt="Family Photo 8">
-        </div>
-
-        <div class="slides ending-message-slide">
-            <div class="message-image-container">
-                <img src="09.jpg" alt="Special Dadajee Photo">
-            </div>
-            <h3>You are a SuperHero Dadajee!</h3>
-            <p>Thank you for Everything and Congratulations on your Big day!</p>
-        </div>
+    <div id="tap-overlay">
+        <h1>Tap Once</h1>
     </div>
+
+    <main id="main-content">
+        <h1>❤️ Our Precious Memories ❤️</h1>
+        <h2>A special day for our special person</h2>
+
+        <div class="slideshow-container">
+            <div class="slides">
+                <img src="01.jpg" alt="Family Photo 1">
+            </div>
+            <div class="slides">
+                <img src="02.jpg" alt="Family Photo 2">
+            </div>
+            <div class="slides">
+                <img src="03.jpg" alt="Family Photo 3">
+            </div>
+            <div class="slides">
+                <img src="04.jpg" alt="Family Photo 4">
+            </div>
+            <div class="slides">
+                <img src="05.jpg" alt="Family Photo 5">
+            </div>
+            <div class="slides">
+                <img src="06.jpg" alt="Family Photo 6">
+            </div>
+            <div class="slides">
+                <img src="07.jpg" alt="Family Photo 7">
+            </div>
+            <div class="slides">
+                <img src="08.jpg" alt="Family Photo 8">
+            </div>
+
+            <div class="slides ending-message-slide">
+                <div class="message-image-container">
+                    <img src="09.jpg" alt="Special Dadajee Photo">
+                </div>
+                <h3>You are a SuperHero Dadajee!</h3>
+                <p>Thank you for Everything and Congratulations on your Big day!</p>
+            </div>
+        </div>
+    </main>
     
     <script>
         let slideIndex = 1;
         let autoSlideTimeout;
         const bgMusic = document.getElementById("bg-music");
+        const tapOverlay = document.getElementById("tap-overlay");
+        const mainContent = document.getElementById("main-content");
 
         function showSlides(n) {
-            let i;
-            let slides = document.getElementsByClassName("slides");
+            const slides = document.getElementsByClassName("slides");
             if (n > slides.length) { slideIndex = 1 }    
             if (n < 1) { slideIndex = slides.length }
-            for (i = 0; i < slides.length; i++) {
+            for (let i = 0; i < slides.length; i++) {
                 slides[i].style.display = "none";  
             }
             slides[slideIndex - 1].style.display = "block";
@@ -204,24 +254,38 @@
             showSlides(slideIndex += n);
         }
 
+        async function playAudio() {
+            try {
+                await bgMusic.play();
+                bgMusic.muted = false;
+            } catch (err) {
+                console.warn("Audio play was prevented by the browser.", err);
+            }
+        }
+
+        function startWebsite() {
+            // Start the audio
+            playAudio();
+            
+            // Fade out the overlay
+            tapOverlay.style.opacity = '0';
+            
+            // Show the main content
+            mainContent.classList.add('visible');
+
+            // Remove the overlay from the page after the transition
+            setTimeout(() => {
+                tapOverlay.style.display = 'none';
+            }, 1000);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            // Set up the slideshow so it's ready
             showSlides(slideIndex);
             
-            const playMusic = () => {
-                const promise = bgMusic.play();
-                if (promise !== undefined) {
-                    promise.then(() => {
-                        bgMusic.muted = false;
-                    }).catch(error => {
-                        console.warn("Autoplay was prevented. A click from the user is needed.", error);
-                    });
-                }
-            };
-            
-            playMusic();
-
-            document.body.addEventListener('click', playMusic, { once: true });
-            document.body.addEventListener('touchend', playMusic, { once: true });
+            // Set up the listener for the first interaction
+            tapOverlay.addEventListener('click', startWebsite, { once: true });
+            tapOverlay.addEventListener('touchend', startWebsite, { once: true });
         });
 
     </script>
