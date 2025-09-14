@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Precious Memories</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom fonts for a warmer feel */
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;700&display=swap');
+        
+        /* Smooth scrolling and better box-sizing */
+        html {
+            scroll-behavior: smooth;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #fff0f5, #ffe4e6);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            color: #4a5568;
+            overflow-x: hidden;
+        }
+        
+            h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #d6497f;
+            text-shadow: 3px 3px 12px rgba(0,0,0,0.25); /* stronger shadow for visibility */
+            font-size: clamp(3.5rem, 12vw, 6rem); /* bigger */
+            text-align: center;
+        }
+
+        h2 {
+            font-family: 'Quicksand', sans-serif;
+            color: #4a4a4a; /* darker for better contrast */
+            font-size: clamp(1.5rem, 5vw, 2rem); /* bigger */
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 700; /* bolder */
+        }
+
+        .slideshow-container {
+            position: relative;
+            max-width: 900px;
+            width: 100%;
+            margin: 1rem auto;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            background-color: white;
+        }
+
+        .slides {
+            display: none;
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+        
+        .slides img {
+            width: 100%;
+            height: 65vh;
+            max-height: 550px;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+            background-color: #f7f0f5;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .ending-message-slide {
+            padding: 1.5rem;
+            background: linear-gradient(145deg, #ffe0f0, #ffcce6);
+            height: 65vh;
+            max-height: 550px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            text-align: center;
+        }
+
+        .ending-message-slide .message-image-container {
+            width: 70%;
+            max-width: 280px;
+            border-radius: 1.25rem;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            /* These two lines ensure perfect horizontal centering */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .ending-message-slide .message-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .ending-message-slide h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            color: #b30059;
+            line-height: 1.2;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.15);
+        }
+
+        .ending-message-slide p {
+            font-family: 'Quicksand', sans-serif;
+            font-size: clamp(1.1rem, 4vw, 1.6rem);
+            color: #6a003a;
+            font-weight: 500;
+        }
+
+        @media (max-width: 360px) {
+            h1 { font-size: clamp(2.2rem, 10vw, 4.5rem); }
+            .ending-message-slide { padding: 1rem; gap: 1rem; }
+        }
+
+    </style>
+</head>
+<body class="flex flex-col items-center">
+
+    <audio id="bg-music" loop autoplay muted>
+        <source src="song.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <h1>❤️ Our Precious Memories ❤️</h1>
+    <h2>A special day for our special person</h2>
+
+    <div class="slideshow-container">
+        <div class="slides">
+            <img src="01.jpg" alt="Family Photo 1">
+        </div>
+        <div class="slides">
+            <img src="02.jpg" alt="Family Photo 2">
+        </div>
+        <div class="slides">
+            <img src="03.jpg" alt="Family Photo 3">
+        </div>
+        <div class="slides">
+            <img src="04.jpg" alt="Family Photo 4">
+        </div>
+        <div class="slides">
+            <img src="05.jpg" alt="Family Photo 5">
+        </div>
+        <div class="slides">
+            <img src="06.jpg" alt="Family Photo 6">
+        </div>
+        <div class="slides">
+            <img src="07.jpg" alt="Family Photo 7">
+        </div>
+        <div class="slides">
+            <img src="08.jpg" alt="Family Photo 8">
+        </div>
+
+        <div class="slides ending-message-slide">
+            <div class="message-image-container">
+                <img src="09.jpg" alt="Special Dadajee Photo">
+            </div>
+            <h3>You are a SuperHero Dadajee!</h3>
+            <p>Thank you for Everything and Congratulations on your Big day!</p>
+        </div>
+    </div>
+    
+    <script>
+        let slideIndex = 1;
+        let autoSlideTimeout;
+        const bgMusic = document.getElementById("bg-music");
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("slides");
+            if (n > slides.length) { slideIndex = 1 }    
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            slides[slideIndex - 1].style.display = "block";
+            
+            clearTimeout(autoSlideTimeout);
+
+            const duration = (slideIndex === slides.length) ? 6000 : 5000;
+
+            autoSlideTimeout = setTimeout(() => {
+                plusSlides(1);
+            }, duration);
+        }
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlides(slideIndex);
+            
+            const playMusic = () => {
+                const promise = bgMusic.play();
+                if (promise !== undefined) {
+                    promise.then(() => {
+                        bgMusic.muted = false;
+                    }).catch(error => {
+                        console.warn("Autoplay was prevented. A click from the user is needed.", error);
+                    });
+                }
+            };
+            
+            playMusic();
+
+            document.body.addEventListener('click', playMusic, { once: true });
+            document.body.addEventListener('touchend', playMusic, { once: true });
+        });
+
+    </script>
+</body>
+</html>
